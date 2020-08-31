@@ -1,2 +1,35 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import datetime
+import requests
+import json
+
+def gettime():
+    return  datetime.datetime.now()
+
+def speak(str):
+    from win32com.client import Dispatch
+    speak = Dispatch("SAPI.Spvoice")
+    speak.Speak(str)
+
+
+if __name__ == '__main__':
+
+    print("Good Mouring , lets starts todays updated news \n")
+    speak("Good Mouring , lets starts todays updated news ")
+
+    print("Present Date and Time ")
+    speak("Present Date and Time")
+    # print("Present Date Time ")
+
+    print(gettime())
+    speak(gettime())
+
+    url = "http://newsapi.org/v2/top-headlines?country=in&apiKey=81af3fa5d7c947c492fd8445c42d237c"
+    news = requests.get(url).text
+    news_dict = json.loads(news)
+    print(news_dict["articles"])
+    arts = news_dict['articles']
+    for artical in arts:
+        print(artical['title'])
+        speak(artical['title'])
+
+        speak("Moving on the next news .... ")
